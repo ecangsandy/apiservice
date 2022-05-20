@@ -62,9 +62,9 @@ class JWTController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 422);
+        // }
 
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -114,9 +114,15 @@ class JWTController extends Controller
      */
     protected function respondWithToken($token)
     {
+        // return response()->json([
+        //     'access_token' => $token,
+        //     'token_type' => 'bearer',
+        //     'expires_in' => auth()->factory()->getTTL() * 60
+        // ]);
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
+            'type' => 'success',
+            'message' => 'Logged in.',
+            'token' => $token,
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
